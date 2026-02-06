@@ -22,7 +22,7 @@ IO01 : GPIO, PWM, Touch1, ADC1_0, RTC
 ![io_port](https://github.com/user-attachments/assets/760f20dc-366c-47ea-8ee6-969aac6ddaff)
 
 ### 1. 485
-####  Pinout
+#### Pinout
 ```
 * HW UART와 연결 되어 있음
 IO15/RXD1 : 485_RX 
@@ -31,7 +31,7 @@ IO07      : 485_REDE
 ```
 
 ### 2. 232
-####  Pinout
+#### Pinout
 ```
 * SW UART 사용 필요
 * HW UART 필요 시 Water의 USB-C를 이용
@@ -40,14 +40,14 @@ IO18 : 232_TX
 ```
 
 ### 3. CAN
-####  Pinout
+#### Pinout
 ```
 * CAN2.0 (CANA, CANB) 지원, FDCAN 사용 불가능
 * TWAI 이용
 IO04 : CAN_TX 
 IO05 : CAN_RX
 ```
-####SideSW
+#### SideSW
 ```
 종단저항 120옴 설정 가능
 CAN_RS : SN65HVD230DR의 8번핀 (RS)를 다음 두 핀중 채결 가능
@@ -56,12 +56,12 @@ CAN_RS : SN65HVD230DR의 8번핀 (RS)를 다음 두 핀중 채결 가능
 ```
 
 ### 4. I2C
-####  Pinout
+#### Pinout
 ```
 IO08 : SDA 
 IO09 : SCL
 ```
-####SideSW
+#### SideSW
 ```
 I2C BUS PULL UP 설정 가능
      1. 4.7k옴 - 3.3v
@@ -69,7 +69,7 @@ I2C BUS PULL UP 설정 가능
 ```
 
 ### 5. Ehternet
-####  Pinout
+#### Pinout
 ```
 W5500, SPI 사용
 IO10 : CS 
@@ -85,7 +85,7 @@ IO21 : W5500 RST
 ```
 
 ### 6. On Board SW
-####  Pinout
+#### Pinout
 ```
 IO06 : PULLUP
 IO14 : PULLUP
