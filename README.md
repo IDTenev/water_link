@@ -5,6 +5,7 @@ esp-idf : v5.5.1
 ide : vscode
 chip : esp32s3 N16R8
 ```
+##### [Esp-IDF 설치는 이쪽을 참고하세요](https://dl.espressif.com/dl/eim/)
 
 ## Pinheader 설명
 ```
