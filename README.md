@@ -1,6 +1,9 @@
 # Water-Link v1.0
 ```
 이 모드는 Esp32s3 MCU가 장착된 Water v1.1 보드를 이용합니다.
+esp-idf : v5.5.1
+ide : vscode
+chip : esp32s3 N16R8
 ```
 
 ## Pinheader 설명
