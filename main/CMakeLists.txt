@@ -4,4 +4,6 @@ idf_component_register(
     REQUIRES
         water_port
         water_driver
+        esp_timer
+        freertos
 )

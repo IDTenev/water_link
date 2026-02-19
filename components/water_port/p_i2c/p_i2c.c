@@ -1,5 +1,5 @@
 #include "common_data.h"
-#include "i2c.h"
+#include "p_i2c.h"
 
 #include "esp_log.h"
 

@@ -56,4 +56,8 @@
 //water ws2812
 #define WS2812_WATER_NUM    1
 
+//SW
+#define SW_SHORT    0
+#define SW_OPEN     1
+
 //-------------------------------------------
