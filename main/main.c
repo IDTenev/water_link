@@ -14,6 +14,7 @@
 
 #include "d_w5500.h"
 #include "d_switch.h"
+#include "d_ws2812.h"
 
 
 void app_main(void)
@@ -31,13 +32,31 @@ void app_main(void)
 
     //driver init
     w5500_init();
+    ws2812_init();
 
     while(1) {
-        switch_get_water_status();
-        switch_get_06_status();
-        switch_get_14_status();
-        switch_get_37_status();
+        printf("WATER_LINK IDEL\n");
+        ws2812_set_pixel(255,0,0,50);
+        ws2812_refresh();
         vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(0,255,0,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(0,0,255,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(255,255,255,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        for(int i=0;i<255;i++) {
+            ws2812_set_pixel(255,0,0,i);
+            ws2812_refresh();
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
     }
 
     printf("Start Water-Link v1.0\n");

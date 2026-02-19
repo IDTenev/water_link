@@ -59,6 +59,7 @@ static uint16_t sw_37_init(void) {
 uint16_t gpio_init(void) {
     uint16_t result = 0;
     ESP_LOGI(TAG, "GPIO INIT START");
+
     result = sw_water_init();
     if(result != NO_ERROR) ESP_LOGI(TAG, "SW_WATER INIT ERROR");
     result = sw_06_init();

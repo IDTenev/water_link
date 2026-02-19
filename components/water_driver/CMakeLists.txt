@@ -2,11 +2,13 @@ idf_component_register(
     SRCS
         "d_w5500/d_w5500.c"
         "d_input/d_switch.c"
+        "d_display/d_ws2812.c"
 
     INCLUDE_DIRS
         "."
         "d_w5500"
         "d_input"
+        "d_display"
 
     REQUIRES
         water_common
