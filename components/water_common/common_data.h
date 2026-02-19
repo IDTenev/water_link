@@ -60,4 +60,9 @@
 #define SW_SHORT    0
 #define SW_OPEN     1
 
+//RS232
+#define RS232_UART_PORT      UART_NUM_1
+#define RS232_UART_BAUD      115200
+
+
 //-------------------------------------------

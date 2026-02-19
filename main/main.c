@@ -16,7 +16,6 @@
 #include "d_switch.h"
 #include "d_ws2812.h"
 
-
 void app_main(void)
 {
     printf("Boot Water v1.1\n");
@@ -34,30 +33,30 @@ void app_main(void)
     w5500_init();
     ws2812_init();
 
-    while(1) {
-        printf("WATER_LINK IDEL\n");
-        ws2812_set_pixel(255,0,0,50);
-        ws2812_refresh();
-        vTaskDelay(pdMS_TO_TICKS(500));
-
-        ws2812_set_pixel(0,255,0,50);
-        ws2812_refresh();
-        vTaskDelay(pdMS_TO_TICKS(500));
-
-        ws2812_set_pixel(0,0,255,50);
-        ws2812_refresh();
-        vTaskDelay(pdMS_TO_TICKS(500));
-
-        ws2812_set_pixel(255,255,255,50);
-        ws2812_refresh();
-        vTaskDelay(pdMS_TO_TICKS(500));
-
-        for(int i=0;i<255;i++) {
-            ws2812_set_pixel(255,0,0,i);
-            ws2812_refresh();
-            vTaskDelay(pdMS_TO_TICKS(10));
-        }
-    }
-
     printf("Start Water-Link v1.0\n");
+
+    while (1) {
+
+        const uint8_t tx[] = "hello\r\n";
+        rs232_send(tx, sizeof(tx) - 1);
+
+        vTaskDelay(pdMS_TO_TICKS(50));
+
+        uint8_t rx[256];
+        size_t n = rs232_read(rx, sizeof(rx));
+
+        if (n) {
+            printf("RX %d bytes: ", (int)n);
+
+            printf("%.*s", (int)n, rx);
+
+            printf("HEX: ");
+            for (int i = 0; i < n; i++) {
+                printf("%02X ", rx[i]);
+            }
+            printf("\n");
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
 }
