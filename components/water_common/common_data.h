@@ -74,7 +74,13 @@
 #endif
 
 #define W5500_VERSIONR   0x0039
-#define W5500_BSB_COMMON 0x00
 
+// Common Register Block
+#define W5500_BSB_COMMON          (0x00)
+
+// Socket n blocks (n:0..7)
+#define W5500_BSB_SOCK_REG(n)     (uint8_t)(0x01 + ((n) * 4))
+#define W5500_BSB_SOCK_TX(n)      (uint8_t)(0x02 + ((n) * 4))
+#define W5500_BSB_SOCK_RX(n)      (uint8_t)(0x03 + ((n) * 4))
 
 //-------------------------------------------
