@@ -8,7 +8,20 @@
 
 #define TAG "PORT/SPI"
 
+#ifndef WATER_SPI_HOST
+#define WATER_SPI_HOST SPI2_HOST
+#endif
+
+#ifndef WATER_SPI_DMA_CHAN
+#define WATER_SPI_DMA_CHAN SPI_DMA_CH_AUTO
+#endif
+
 static bool s_spi_inited = false;
+
+bool spi_is_inited(void)
+{
+    return s_spi_inited;
+}
 
 uint16_t spi_init(void)
 {
@@ -43,10 +56,15 @@ uint16_t spi_init(void)
 uint16_t spi_dev_add(p_spi_dev_t *out, int clock_hz, int mode)
 {
     if (!out) return SPI_ERROR_ARGUMENT;
-
     if (!s_spi_inited) {
         uint16_t r = spi_init();
         if (r != SPI_OK) return r;
+    }
+
+    // 이미 등록된 핸들이면 재등록 금지 (안 꼬이게!)
+    if (out->dev != NULL) {
+        ESP_LOGW(TAG, "spi_dev_add ignored (already has device handle)");
+        return SPI_OK;
     }
 
     spi_device_interface_config_t devcfg = {
@@ -54,7 +72,7 @@ uint16_t spi_dev_add(p_spi_dev_t *out, int clock_hz, int mode)
         .mode = mode,
         .spics_io_num = PIN_SPI_CS,
         .queue_size = 4,
-        .flags = 0,
+        .flags = 0, // FULL DUPLEX로 두고, W5500 드라이버에서 프레임을 쪼개든 말든 선택
     };
 
     spi_device_handle_t handle = NULL;
@@ -81,7 +99,6 @@ uint16_t spi_txrx(p_spi_dev_t *dev, const uint8_t *tx, uint8_t *rx, size_t len)
     t.length = len * 8;
     if (rx) t.rxlength = len * 8;
 
-    // tx==NULL이면 0x00 dummy를 보냄 (spi_master 동작)
     t.tx_buffer = tx;
     t.rx_buffer = rx;
 

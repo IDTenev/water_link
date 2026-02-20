@@ -73,5 +73,8 @@
 #define WATER_SPI_DMA_CHAN SPI_DMA_CH_AUTO
 #endif
 
+#define W5500_VERSIONR   0x0039
+#define W5500_BSB_COMMON 0x00
+
 
 //-------------------------------------------
