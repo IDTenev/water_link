@@ -75,6 +75,13 @@
 
 #define W5500_VERSIONR   0x0039
 
+#define W5500_BOOT_MAC  {0x02,0x12,0x34,0x56,0x78,0x9A}
+#define W5500_BOOT_IP   {192,168,10,2}
+#define W5500_BOOT_SN   {255,255,255,0}
+#define W5500_BOOT_GW   {192,168,10,1}
+
+#define W5500_USE_DHCP  0
+
 // Common Register Block
 #define W5500_BSB_COMMON          (0x00)
 

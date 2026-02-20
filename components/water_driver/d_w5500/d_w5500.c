@@ -94,22 +94,60 @@ uint16_t w5500_init(void)
     ESP_LOGI(TAG, "VERSIONR(0x%04X) = 0x%02X", W5500_VERSIONR, s_ver);
 
     if (s_ver == 0x04) {
-        // 기본 소켓 버퍼: 0~3번만 2KB씩 쓰고 나머지 0KB (예시)
+        // -------------------------
+        // 1. 소켓 버퍼 할당
+        // -------------------------
         const uint8_t tx_kb[8] = {2,2,2,2,0,0,0,0};
         const uint8_t rx_kb[8] = {2,2,2,2,0,0,0,0};
         w5500_buf_alloc(tx_kb, rx_kb);
 
-        // 재전송 설정(예: 2000ms, 3회)
+        // -------------------------
+        // 2. BOOT 네트워크 정책 적용
+        // -------------------------
+        w5500_netinfo_t ni = {
+            .mac = W5500_BOOT_MAC,
+            .ip  = {0,0,0,0},
+            .sn  = {0,0,0,0},
+            .gw  = {0,0,0,0},
+        };
+
+    #if W5500_USE_DHCP
+        ESP_LOGI(TAG, "Boot mode: DHCP");
+    #else
+        {
+            uint8_t ip[4] = W5500_BOOT_IP;
+            uint8_t sn[4] = W5500_BOOT_SN;
+            uint8_t gw[4] = W5500_BOOT_GW;
+
+            memcpy(ni.ip, ip, 4);
+            memcpy(ni.sn, sn, 4);
+            memcpy(ni.gw, gw, 4);
+        }
+        ESP_LOGI(TAG, "Boot mode: STATIC");
+    #endif
+
+        w5500_net_set(&ni);
+
+        // -------------------------
+        // 3. 재전송 설정 (유지)
+        // -------------------------
         w5500_net_set_retry(2000, 3);
 
-        // PHY 링크 상태 로그
+        // -------------------------
+        // 4. PHY 상태 로그 (유지)
+        // -------------------------
         ESP_LOGI(TAG, "PHY link: %s", w5500_phy_link_up() ? "UP" : "DOWN");
 
-        s_ready = true;
+        // -------------------------
+        // 5. 덤프 (유지)
+        // -------------------------
         w5500_net_dump();
+
+        s_ready = true;
         ESP_LOGI(TAG, "W5500 ready");
         return SPI_OK;
     }
+
 
     ESP_LOGW(TAG, "W5500 not ready (unexpected version). Check wiring/CS/RST.");
     return SPI_ERROR;
