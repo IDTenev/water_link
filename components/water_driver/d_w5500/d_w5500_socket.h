@@ -39,6 +39,7 @@ uint16_t w5500_sock_tx_write(uint8_t sn, const uint8_t *data, size_t len, uint16
 
 // RX 링버퍼에서 “읽기” (Sn_RX_RD 갱신 + RECV는 별도)
 uint16_t w5500_sock_rx_read(uint8_t sn, uint8_t *data, size_t len, uint16_t *new_rx_rd);
+uint16_t w5500_sock_rx_peek(uint8_t sn, uint16_t rx_rd, uint8_t *data, size_t len);
 
 // RX 데이터 소비 처리 (Sn_RX_RD 반영 + RECV 커맨드)
 uint16_t w5500_sock_rx_consume(uint8_t sn, uint16_t new_rx_rd, uint32_t timeout_ms);

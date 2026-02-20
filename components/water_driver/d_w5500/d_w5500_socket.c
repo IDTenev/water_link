@@ -85,18 +85,26 @@ static uint16_t stable_read16(uint8_t sn, uint16_t reg, uint16_t *out)
     uint16_t a = 0, b = 0;
     uint16_t r;
 
-    // datasheet 권장 패턴: 두 번 읽어 값이 같을 때 사용
-    while (1) {
+    // 무한루프 금지: 최대 50번만 시도
+    for (int i = 0; i < 50; i++) {
         r = w5500_sn_read16(sn, reg, &a);
         if (r != SPI_OK) return r;
+
         r = w5500_sn_read16(sn, reg, &b);
         if (r != SPI_OK) return r;
+
         if (a == b) {
             *out = a;
             return SPI_OK;
         }
+
+        // yield/delay 없으면 IDLE이 못 돌아서 WDT 터짐
+        vTaskDelay(pdMS_TO_TICKS(1));
     }
+
+    return SPI_ERROR; // 안정값 못 얻음
 }
+
 
 uint16_t w5500_sock_get_tx_free(uint8_t sn, uint16_t *out_fsr)
 {
@@ -233,6 +241,18 @@ uint16_t w5500_sock_rx_read(uint8_t sn, uint8_t *data, size_t len, uint16_t *new
 
     if (new_rx_rd) *new_rx_rd = rx_rd;
     return SPI_OK;
+}
+
+uint16_t w5500_sock_rx_peek(uint8_t sn, uint16_t rx_rd, uint8_t *data, size_t len)
+{
+    if (!sn_valid(sn) || !data || len == 0) return SPI_ERROR_ARGUMENT;
+
+    uint16_t rxbuf = 0;
+    uint16_t r = w5500_sock_get_rx_bufsize(sn, &rxbuf);
+    if (r != SPI_OK) return r;
+    if (rxbuf == 0) return SPI_ERROR;
+
+    return mem_read_ring(W5500_BSB_SOCK_RX(sn), rx_rd, data, len, rxbuf);
 }
 
 // -------------------------
