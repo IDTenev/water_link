@@ -64,5 +64,14 @@
 #define RS232_UART_PORT      UART_NUM_1
 #define RS232_UART_BAUD      115200
 
+//W5500
+#ifndef WATER_SPI_HOST
+#define WATER_SPI_HOST SPI2_HOST
+#endif
+
+#ifndef WATER_SPI_DMA_CHAN
+#define WATER_SPI_DMA_CHAN SPI_DMA_CH_AUTO
+#endif
+
 
 //-------------------------------------------

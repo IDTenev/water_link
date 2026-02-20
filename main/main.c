@@ -34,28 +34,37 @@ void app_main(void)
     ws2812_init();
 
     printf("Start Water-Link v1.0\n");
+    
+    // =========================
+    // SPI TEST
+    // =========================
+    printf("SPI Test Start\n");
 
-    while (1) {
+    p_spi_dev_t spi_dev;
 
-        const uint8_t tx[] = "hello\r\n";
-        rs232_send(tx, sizeof(tx) - 1);
+    // W5500은 SPI mode 0, 8~30MHz 가능.
+    // 일단 안정적으로 8MHz로 테스트.
+    if (spi_dev_add(&spi_dev, 8 * 1000 * 1000, 0) != 0) {
+        printf("SPI device add failed\n");
+        return;
+    }
 
-        vTaskDelay(pdMS_TO_TICKS(50));
+    uint8_t tx_buf[4] = {0xAA, 0x55, 0x00, 0xFF};
+    uint8_t rx_buf[4] = {0};
 
-        uint8_t rx[256];
-        size_t n = rs232_read(rx, sizeof(rx));
-
-        if (n) {
-            printf("RX %d bytes: ", (int)n);
-
-            printf("%.*s", (int)n, rx);
-
-            printf("HEX: ");
-            for (int i = 0; i < n; i++) {
-                printf("%02X ", rx[i]);
-            }
-            printf("\n");
+    if (spi_txrx(&spi_dev, tx_buf, rx_buf, sizeof(tx_buf)) != 0) {
+        printf("SPI txrx failed\n");
+    } else {
+        printf("SPI TXRX OK\n");
+        printf("RX: ");
+        for (int i = 0; i < 4; i++) {
+            printf("%02X ", rx_buf[i]);
         }
+        printf("\n");
+    }
+
+    printf("SPI Test End\n");
+    while (1) {
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
