@@ -4,6 +4,8 @@
 
 #include "p_spi.h"
 #include "d_w5500/d_w5500_reg.h"
+#include "d_w5500/d_w5500_socket.h"
+#include "d_w5500/d_w5500_net.h"
 
 #include "esp_log.h"
 #include "driver/gpio.h"
@@ -92,7 +94,19 @@ uint16_t w5500_init(void)
     ESP_LOGI(TAG, "VERSIONR(0x%04X) = 0x%02X", W5500_VERSIONR, s_ver);
 
     if (s_ver == 0x04) {
+        // 기본 소켓 버퍼: 0~3번만 2KB씩 쓰고 나머지 0KB (예시)
+        const uint8_t tx_kb[8] = {2,2,2,2,0,0,0,0};
+        const uint8_t rx_kb[8] = {2,2,2,2,0,0,0,0};
+        w5500_buf_alloc(tx_kb, rx_kb);
+
+        // 재전송 설정(예: 2000ms, 3회)
+        w5500_net_set_retry(2000, 3);
+
+        // PHY 링크 상태 로그
+        ESP_LOGI(TAG, "PHY link: %s", w5500_phy_link_up() ? "UP" : "DOWN");
+
         s_ready = true;
+        w5500_net_dump();
         ESP_LOGI(TAG, "W5500 ready");
         return SPI_OK;
     }
