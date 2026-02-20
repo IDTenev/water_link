@@ -33,8 +33,7 @@ IO07      : 485_REDE
 ### 2. 232
 #### Pinout
 ```
-* SW UART 사용 필요
-* HW UART 필요 시 Water의 USB-C를 이용
+* HW UART1 이용
 IO17 : 232_RX 
 IO18 : 232_TX
 ```
