@@ -20,6 +20,8 @@
 #include "d_ws2812.h"
 #include "s_udp.h"
 
+#define TAG "APP/MAIN"
+
 void app_main(void)
 {
     printf("Boot Water v1.1\n");
@@ -31,7 +33,11 @@ void app_main(void)
     rs485_init();
     i2c_init();
     spi_init();
-    can_init();
+    uint16_t rc = can_init();
+    if (rc) {
+        ESP_LOGE(TAG, "can_init failed: 0x%04X", rc);
+        return;
+    }
 
     //driver init
     w5500_init();
@@ -41,6 +47,6 @@ void app_main(void)
 
     while (1) {
 
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
