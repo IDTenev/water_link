@@ -6,6 +6,7 @@ idf_component_register(
         "d_w5500/d_w5500_net.c"
         "d_input/d_switch.c"
         "d_display/d_ws2812.c"
+        "d_display/d_ht16k33.c"
 
     INCLUDE_DIRS
         "."
