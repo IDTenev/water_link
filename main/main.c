@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#include "common_data.h"
+#include "error_code.h"
+
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -15,6 +18,7 @@
 #include "d_w5500.h"
 #include "d_switch.h"
 #include "d_ws2812.h"
+#include "s_udp.h"
 
 void app_main(void)
 {
@@ -36,26 +40,6 @@ void app_main(void)
     printf("Start Water-Link v1.0\n");
 
     while (1) {
-
-        const uint8_t tx[] = "hello\r\n";
-        rs232_send(tx, sizeof(tx) - 1);
-
-        vTaskDelay(pdMS_TO_TICKS(50));
-
-        uint8_t rx[256];
-        size_t n = rs232_read(rx, sizeof(rx));
-
-        if (n) {
-            printf("RX %d bytes: ", (int)n);
-
-            printf("%.*s", (int)n, rx);
-
-            printf("HEX: ");
-            for (int i = 0; i < n; i++) {
-                printf("%02X ", rx[i]);
-            }
-            printf("\n");
-        }
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
