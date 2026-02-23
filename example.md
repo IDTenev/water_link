@@ -1,3 +1,219 @@
+# On-board SW Example
+## 500ms에 한번씩 스위치 값 출력
+```
+#include <stdio.h>
+
+#include "common_data.h"
+#include "error_code.h"
+
+#include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
+
+#include "p_gpio.h"
+#include "p_rs232.h"
+#include "p_rs485.h"
+#include "p_i2c.h"
+#include "p_spi.h"
+#include "p_can.h"
+
+#include "d_w5500.h"
+#include "d_switch.h"
+#include "d_ws2812.h"
+#include "s_udp.h"
+
+#define TAG "APP/MAIN"
+
+void app_main(void)
+{
+    printf("Boot Water v1.1\n");
+
+    printf("Initialing System\n");
+    //port init
+    gpio_init();
+    rs232_init();
+    rs485_init();
+    i2c_init();
+    spi_init();
+    uint16_t rc = can_init();
+    if (rc) {
+        ESP_LOGE(TAG, "can_init failed: 0x%04X", rc);
+        return;
+    }
+
+    //driver init
+    w5500_init();
+    ws2812_init();
+
+    printf("Start Water-Link v1.0\n");
+
+    while (1) {
+        switch_get_water_status();
+        switch_get_06_status();
+        switch_get_14_status();
+        switch_get_37_status();
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+```
+
+# On-board WS2812 Example
+## 500ms주기로 색 변경 (R -> G -> B -> W -> R Fade In -> Off)
+```
+#include <stdio.h>
+
+#include "common_data.h"
+#include "error_code.h"
+
+#include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
+
+#include "p_gpio.h"
+#include "p_rs232.h"
+#include "p_rs485.h"
+#include "p_i2c.h"
+#include "p_spi.h"
+#include "p_can.h"
+
+#include "d_w5500.h"
+#include "d_switch.h"
+#include "d_ws2812.h"
+#include "s_udp.h"
+
+#define TAG "APP/MAIN"
+
+void app_main(void)
+{
+    printf("Boot Water v1.1\n");
+
+    printf("Initialing System\n");
+    //port init
+    gpio_init();
+    rs232_init();
+    rs485_init();
+    i2c_init();
+    spi_init();
+    uint16_t rc = can_init();
+    if (rc) {
+        ESP_LOGE(TAG, "can_init failed: 0x%04X", rc);
+        return;
+    }
+
+    //driver init
+    w5500_init();
+    ws2812_init();
+
+    printf("Start Water-Link v1.0\n");
+
+    while (1) {
+        ws2812_set_pixel(255,0,0,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(0,255,0,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(0,0,255,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        ws2812_set_pixel(255,255,255,50);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+
+        for(int i=0;i<255;i++) {
+            ws2812_set_pixel(255,0,0,i);
+            ws2812_refresh();
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
+
+        ws2812_set_pixel(0,0,0,0);
+        ws2812_refresh();
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+```
+
+# RS232 Example
+## 1s 주기로 hello 전송 후 수신 확인 (TX,RX 연결하여 Loopback)
+```
+#include <stdio.h>
+
+#include "common_data.h"
+#include "error_code.h"
+
+#include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
+
+#include "p_gpio.h"
+#include "p_rs232.h"
+#include "p_rs485.h"
+#include "p_i2c.h"
+#include "p_spi.h"
+#include "p_can.h"
+
+#include "d_w5500.h"
+#include "d_switch.h"
+#include "d_ws2812.h"
+#include "s_udp.h"
+
+#define TAG "APP/MAIN"
+
+void app_main(void)
+{
+    printf("Boot Water v1.1\n");
+
+    printf("Initialing System\n");
+    //port init
+    gpio_init();
+    rs232_init();
+    rs485_init();
+    i2c_init();
+    spi_init();
+    uint16_t rc = can_init();
+    if (rc) {
+        ESP_LOGE(TAG, "can_init failed: 0x%04X", rc);
+        return;
+    }
+
+    //driver init
+    w5500_init();
+    ws2812_init();
+
+    printf("Start Water-Link v1.0\n");
+
+    while (1) {
+        const uint8_t tx[] = "hello\r\n";
+        rs232_send(tx, sizeof(tx) - 1);
+
+        vTaskDelay(pdMS_TO_TICKS(50));
+
+        uint8_t rx[256];
+        size_t n = rs232_read(rx, sizeof(rx));
+
+        if (n) {
+            printf("RX %d bytes: ", (int)n);
+
+            printf("%.*s", (int)n, rx);
+
+            printf("HEX: ");
+            for (int i = 0; i < n; i++) {
+                printf("%02X ", rx[i]);
+            }
+            printf("\n");
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+```
+
 # CAN Example
 ## 외부-> Water-link 로 데이터를 주면 데이터에 +1 하여 리턴
 ```
