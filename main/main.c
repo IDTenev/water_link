@@ -18,6 +18,8 @@
 #include "d_w5500.h"
 #include "d_switch.h"
 #include "d_ws2812.h"
+#include "d_ht16k33.h"
+
 #include "s_udp.h"
 
 #define TAG "APP/MAIN"
@@ -42,9 +44,8 @@ void app_main(void)
     //driver init
     w5500_init();
     ws2812_init();
-
-    printf("Start Water-Link v1.0\n");
-
+    //ht16k33_init(HT16K33_ADDRESS);
+    
     while (1) {
 
         vTaskDelay(pdMS_TO_TICKS(200));

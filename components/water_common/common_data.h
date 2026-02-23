@@ -7,30 +7,30 @@
 #define PIN_IO40    40
 #define PIN_IO41    41
 #define PIN_IO42    42
-#define PIN_IO02    02
-#define PIN_IO01    01
+#define PIN_IO02    2
+#define PIN_IO01    1
 
 //SW
-#define PIN_IO06    06
+#define PIN_IO06    6
 #define PIN_IO14    14
 #define PIN_IO37    37
 
 //RS485
 #define PIN_RS485_RX    15
 #define PIN_RS485_TX    16
-#define PIN_RS485_DE    07
+#define PIN_RS485_DE    7
 
 //RS232
 #define PIN_RS232_RX    17
 #define PIN_RS232_TX    18
 
 //CAN
-#define PIN_CAN_RX    05
-#define PIN_CAN_TX    04
+#define PIN_CAN_RX    5
+#define PIN_CAN_TX    4
 
 //I2C
-#define PIN_I2C_SDA   08
-#define PIN_I2C_SCL   09
+#define PIN_I2C_SDA   8
+#define PIN_I2C_SCL   9
 
 //SPI
 #define PIN_SPI_MOSI   11
@@ -65,7 +65,6 @@
 #define RS232_UART_BAUD      115200
 
 //RS485
-
 #define RS485_UART_NUM          UART_NUM_2
 #define RS485_BAUD_DEFAULT      115200
 #define RS485_TX_BUF_SIZE       0                // TX buffer: 0이면 드라이버가 내부적으로 바로 밀어냄 (write block)
@@ -89,6 +88,11 @@
 // Extended 29bit -> 0x1FFFFFFF
 #define CAN_FILTER_MASK      (0x7FF)
 
+//i2c
+#define I2C_PORT_NUM            0
+#define I2C_SCL_SPEED_HZ        100000   // 400kHz
+#define I2C_GLITCH_IGNORE_CNT   7
+#define I2C_TIMEOUT_MS          1000
 
 //W5500
 #ifndef WATER_SPI_HOST
@@ -184,3 +188,8 @@
 #define W5500_PHYCFGR   0x002E  // 1B
 
 //-------------------------------------------
+
+//-------------------------------------------
+//External
+//-------------------------------------------
+#define HT16K33_ADDRESS 0x70
