@@ -64,6 +64,24 @@
 #define RS232_UART_PORT      UART_NUM_1
 #define RS232_UART_BAUD      115200
 
+//CAN
+#define CAN_BITRATE_KBPS     (500)
+
+// 1 = 필터 사용, 0 = ACCEPT ALL
+#define CAN_USE_RX_FILTER    (0)
+
+// 0 = Standard(11bit), 1 = Extended(29bit)
+#define CAN_FILTER_EXTENDED  (0)
+
+// 필터 기준 ID
+#define CAN_FILTER_ID        (0x123)
+
+// 마스크
+// Standard 11bit -> 0x7FF
+// Extended 29bit -> 0x1FFFFFFF
+#define CAN_FILTER_MASK      (0x7FF)
+
+
 //W5500
 #ifndef WATER_SPI_HOST
 #define WATER_SPI_HOST SPI2_HOST
