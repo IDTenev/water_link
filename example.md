@@ -1,5 +1,7 @@
-# On-board SW Example
-## 500ms에 한번씩 스위치 값 출력
+# Water-Link Example
+
+## On-board SW Example
+### 500ms에 한번씩 스위치 값 출력
 ```
 #include <stdio.h>
 
@@ -58,8 +60,8 @@ void app_main(void)
 }
 ```
 
-# On-board WS2812 Example
-## 500ms주기로 색 변경 (R -> G -> B -> W -> R Fade In -> Off)
+## On-board WS2812 Example
+### 500ms주기로 색 변경 (R -> G -> B -> W -> R Fade In -> Off)
 ```
 #include <stdio.h>
 
@@ -138,8 +140,8 @@ void app_main(void)
 }
 ```
 
-# RS232 Example
-## 1s 주기로 hello 전송 후 수신 확인 (TX,RX 연결하여 Loopback)
+## RS232 Example
+### 1s 주기로 hello 전송 후 수신 확인 (TX,RX 연결하여 Loopback)
 ```
 #include <stdio.h>
 
@@ -214,8 +216,8 @@ void app_main(void)
 }
 ```
 
-# CAN Example
-## 외부-> Water-link 로 데이터를 주면 데이터에 +1 하여 리턴
+## CAN Example
+### 외부-> Water-link 로 데이터를 주면 데이터에 +1 하여 리턴
 ```
 #include <stdio.h>
 
