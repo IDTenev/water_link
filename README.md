@@ -24,7 +24,7 @@ IO01 : GPIO, PWM, Touch1, ADC1_0, RTC
 ### 1. 485
 #### Pinout
 ```
-* HW UART와 연결 되어 있음
+* HW URAT2 이용
 IO15/RXD1 : 485_RX 
 IO16/TXD1 : 485_TX
 IO07      : 485_REDE
