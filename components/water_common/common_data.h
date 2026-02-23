@@ -64,6 +64,14 @@
 #define RS232_UART_PORT      UART_NUM_1
 #define RS232_UART_BAUD      115200
 
+//RS485
+
+#define RS485_UART_NUM          UART_NUM_2
+#define RS485_BAUD_DEFAULT      115200
+#define RS485_TX_BUF_SIZE       0                // TX buffer: 0이면 드라이버가 내부적으로 바로 밀어냄 (write block)
+#define RS485_RX_BUF_SIZE       2048
+#define RS485_EVENT_QUEUE_SIZE  0                // 이벤트 큐 안 쓸 거면 0
+
 //CAN
 #define CAN_BITRATE_KBPS     (500)
 
