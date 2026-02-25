@@ -44,6 +44,12 @@ static uint16_t common_write16(uint16_t addr, uint16_t v)
     return w5500_write16(W5500_BSB_COMMON, addr, v);
 }
 
+uint16_t w5500_get_mac(uint8_t mac_out[6])
+{
+    if (!mac_out) return SPI_ERROR_ARGUMENT;
+    return w5500_read_buf(W5500_BSB_COMMON, W5500_SHAR, mac_out, 6);
+}
+
 uint16_t w5500_net_set(const w5500_netinfo_t *ni)
 {
     if (!ni) return SPI_ERROR_ARGUMENT;
