@@ -31,6 +31,8 @@ uint16_t w5500_buf_alloc(const uint8_t tx_kb[8], const uint8_t rx_kb[8]);
 
 void w5500_net_dump(void);
 
+uint16_t w5500_get_mac(uint8_t mac_out[6]);
+uint16_t w5500_set_mac(const uint8_t mac[6]);
 #ifdef __cplusplus
 }
 #endif

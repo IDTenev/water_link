@@ -20,8 +20,6 @@
 #include "d_ws2812.h"
 #include "d_ht16k33.h"
 
-#include "s_udp.h"
-
 #define TAG "APP/MAIN"
 
 void app_main(void)
@@ -45,9 +43,8 @@ void app_main(void)
     w5500_init();
     ws2812_init();
     //ht16k33_init(HT16K33_ADDRESS);
-    
-    while (1) {
 
-        vTaskDelay(pdMS_TO_TICKS(200));
+    while (1) {
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

@@ -132,6 +132,7 @@
 #define W5500_Sn_DIPR        0x000C
 #define W5500_Sn_DPORT       0x0010
 #define W5500_Sn_MSSR        0x0012
+#define W5500_Sn_PROTO       0x0014
 #define W5500_Sn_TOS         0x0015
 #define W5500_Sn_TTL         0x0016
 
@@ -165,6 +166,7 @@
 #define W5500_MR_CLOSE       0x00
 #define W5500_MR_TCP         0x01
 #define W5500_MR_UDP         0x02
+#define W5500_MR_IPRAW       0x03
 #define W5500_MR_MACRAW      0x04
 
 // -------------------------
