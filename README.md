@@ -1,6 +1,11 @@
 # Water-Link v1.0
 ```
 이 모드는 Esp32s3 MCU가 장착된 Water v1.1 보드를 이용합니다.
+example을 포함하여 이 프로젝트의 기본 Side SW 위치 입니다.
+         1. 485 : 120ohm
+         2. i2c : Pullup 3.3
+         3. CAN : 120ohm
+         4. CAN_RS : GND
 ```
 
 ## Pinheader 설명
