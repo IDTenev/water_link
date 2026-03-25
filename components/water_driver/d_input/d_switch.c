@@ -9,48 +9,60 @@
 
 uint16_t switch_get_water_status(void) {
     uint16_t result = gpio_sw_water_get_level();
-    if(result == SW_SHORT) {
+    static uint16_t prev_result = 99;
+    
+    if(result == SW_SHORT && prev_result != result) {
         ESP_LOGI(TAG, "SW WATER SHORT!");
     }
-    else if(result == SW_OPEN) {
+    else if(result == SW_OPEN && prev_result != result) {
         ESP_LOGI(TAG, "SW WATER OPEN!");
     }
-
+    
+    prev_result = result;
     return result;
 }
 
 uint16_t switch_get_06_status(void) {
     uint16_t result = gpio_sw_06_get_level();
-    if(result == SW_SHORT) {
+    static uint16_t prev_result = 99;
+
+    if(result == SW_SHORT && prev_result != result) {
         ESP_LOGI(TAG, "SW 06 SHORT!");
     }
-    else if(result == SW_OPEN) {
+    else if(result == SW_OPEN && prev_result != result) {
         ESP_LOGI(TAG, "SW 06 OPEN!");
     }
 
+    prev_result = result;
     return result;
 }
 
 uint16_t switch_get_14_status(void) {
     uint16_t result = gpio_sw_14_get_level();
-    if(result == SW_SHORT) {
+    static uint16_t prev_result = 99;
+
+    if(result == SW_SHORT && prev_result != result) {
         ESP_LOGI(TAG, "SW 14 SHORT!");
     }
-    else if(result == SW_OPEN) {
+    else if(result == SW_OPEN && prev_result != result) {
         ESP_LOGI(TAG, "SW 14 OPEN!");
     }
 
+    prev_result = result;
     return result;
 }
 
 uint16_t switch_get_37_status(void) {
     uint16_t result = gpio_sw_37_get_level();
-    if(result == SW_SHORT) {
+    static uint16_t prev_result = 99;
+
+    if(result == SW_SHORT && prev_result != result) {
         ESP_LOGI(TAG, "SW 37 SHORT!");
     }
-    else if(result == SW_OPEN) {
+    else if(result == SW_OPEN && prev_result != result) {
         ESP_LOGI(TAG, "SW 37 OPEN!");
     }
 
+    prev_result = result;
     return result;
 }
